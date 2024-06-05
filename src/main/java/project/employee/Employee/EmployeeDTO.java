@@ -2,47 +2,20 @@ package project.employee.Employee;
 
 import java.util.Date;
 
-import jakarta.persistence.*;
-import project.employee.Address.Address;
+import project.employee.Address.AddressDTO;
 
-@Entity
-@Table(name = "employee_list")
-public class Employee {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class EmployeeDTO {
     private Long id;
-
-    @Column(nullable = false)
     private String f_name;
-
-    @Column(nullable = false)
     private String l_name;
-
-    @Column(nullable = false)
     private String email;
-
-    @Column(nullable = false)
     private Long phone;
-
-    @Column(nullable = false)
     private Date dob;
-
-    @Column(nullable = false)
     private Boolean fullTime;
-
-    @Column(nullable = false)
     private Boolean permanent;
-
-    @Column(nullable = false)
     private Date dateStarted;
-
-    @Column(nullable = true)
     private Date dateEnded;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    private AddressDTO address;
 
     public Long getId() {
         return id;
@@ -84,6 +57,14 @@ public class Employee {
         this.phone = phone;
     }
 
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
     public Boolean getFullTime() {
         return fullTime;
     }
@@ -116,27 +97,12 @@ public class Employee {
         this.dateEnded = dateEnded;
     }
 
-    public Address getAddress() {
+    public AddressDTO getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressDTO address) {
         this.address = address;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee [id=" + id + ", f_name=" + f_name + ", l_name=" + l_name + ", email=" + email + ", phone="
-                + phone + ", dob=" + dob + ", fullTime=" + fullTime + ", permanent=" + permanent + ", dateStarted="
-                + dateStarted + ", dateEnded=" + dateEnded + ", address=" + address + "]";
     }
 
 }

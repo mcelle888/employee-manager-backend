@@ -82,6 +82,4 @@ public class Address {
                 + ", state=" + state + ", employee=" + employee + "]";
     }
 
-    
-
 }
