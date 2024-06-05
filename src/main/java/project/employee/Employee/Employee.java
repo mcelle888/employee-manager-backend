@@ -25,6 +25,21 @@ public class Employee {
     @Column(nullable = false)
     private Long phone;
 
+    @Column(nullable = false)
+    private Date dob;
+
+    @Column(nullable = false)
+    private Boolean fullTime;
+
+    @Column(nullable = false)
+    private Boolean permanent;
+
+    @Column(nullable = false)
+    private Date dateStarted;
+
+    @Column(nullable = true)
+    private Date dateEnded;
+
     public Long getId() {
         return id;
     }
@@ -105,17 +120,15 @@ public class Employee {
         this.address = address;
     }
 
-    @Column(nullable = false)
-    private Boolean fullTime;
+    public Date getDob() {
+        return dob;
+    }
 
-    @Column(nullable = false)
-    private Boolean permanent;
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
 
-    @Column(nullable = false)
-    private Date dateStarted;
 
-    @Column(nullable = true)
-    private Date dateEnded;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
@@ -124,8 +137,10 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee [id=" + id + ", f_name=" + f_name + ", l_name=" + l_name + ", email=" + email + ", phone="
-                + phone + ", fullTime=" + fullTime + ", permanent=" + permanent + ", dateStarted=" + dateStarted
-                + ", dateEnded=" + dateEnded + ", address=" + address + "]";
+                + phone + ", dob=" + dob + ", fullTime=" + fullTime + ", permanent=" + permanent + ", dateStarted="
+                + dateStarted + ", dateEnded=" + dateEnded + ", address=" + address + "]";
     }
+
+   
 
 }
