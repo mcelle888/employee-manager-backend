@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="logPattern">%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%-5level}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=bright_green, DEBUG=green bold, TRACE=blue} %logger{36}.%M() @%L - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="SlowConsole" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false" pattern="${logPattern}" />
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="SlowConsole"/>
+        </Root>
+        <Logger name="spring.project.todo" level="debug" additivity="false">
+            <AppenderRef ref="SlowConsole"/>
+        </Logger>
+    </Loggers>
+</Configuration>

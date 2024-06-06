@@ -4,7 +4,6 @@ import java.util.Date;
 import project.employee.Address.AddressDTO;
 
 public class UpdateEmployeeDTO {
-    private Long id;
     private String f_name;
     private String l_name;
     private String email;
@@ -15,15 +14,6 @@ public class UpdateEmployeeDTO {
     private Date dateStarted;
     private Date dateEnded;
     private AddressDTO address; 
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getF_name() {
         return f_name;
