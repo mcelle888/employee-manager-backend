@@ -27,7 +27,7 @@ public class MappingService {
         EmployeeDTO employeeDTO = modelMapper.map(employee, EmployeeDTO.class);
         if (employee.getAddress() != null) {
             AddressDTO addressDTO = modelMapper.map(employee.getAddress(), AddressDTO.class);
-            addressDTO.setStateId(employee.getAddress().getState().getId());  
+            addressDTO.setStateId(employee.getAddress().getState().getId()); 
             employeeDTO.setAddress(addressDTO);
         }
         return employeeDTO;
@@ -52,8 +52,8 @@ public class MappingService {
         return address;
     }
 
-    public State convertToEntity(StateDTO stateDTO) {
-        return modelMapper.map(stateDTO, State.class);
+    public StateDTO convertToDTO(State state) {
+        return modelMapper.map(state, StateDTO.class);
     }
 
     public void updateEntityFromDTO(UpdateEmployeeDTO updateEmployeeDTO, Employee employee) throws NotFoundException {
