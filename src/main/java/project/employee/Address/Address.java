@@ -1,7 +1,6 @@
 package project.employee.Address;
 
 import jakarta.persistence.*;
-import project.employee.Employee.Employee;
 import project.employee.State.State;
 
 @Entity
@@ -24,9 +23,6 @@ public class Address {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "state_id", nullable = false)
     private State state;
-
-    @OneToOne(mappedBy = "address")
-    private Employee employee;
 
     public Long getId() {
         return id;
@@ -67,19 +63,4 @@ public class Address {
     public void setState(State state) {
         this.state = state;
     }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    @Override
-    public String toString() {
-        return "Address [id=" + id + ", number=" + number + ", address=" + address + ", postcode=" + postcode
-                + ", state=" + state + ", employee=" + employee + "]";
-    }
-
 }

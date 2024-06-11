@@ -1,12 +1,13 @@
 package project.employee.Address;
 
+import project.employee.State.StateDTO;
+
 public class AddressDTO {
     private Long number;
     private String address;
     private Long postcode;
-    private Long stateId;  
-
-    
+    private Long stateId;
+    private StateDTO state;  
     public Long getNumber() {
         return number;
     }
@@ -37,5 +38,13 @@ public class AddressDTO {
 
     public void setStateId(Long stateId) {
         this.stateId = stateId;
+    }
+
+    public StateDTO getState() {
+        return state;
+    }
+
+    public void setState(StateDTO state) {
+        this.state = state;
     }
 }

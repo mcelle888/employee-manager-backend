@@ -78,10 +78,6 @@ public class EmployeeService {
         Employee employee = optionalEmployee.get();
         mappingService.updateEntityFromDTO(updateEmployeeDTO, employee);
 
-        State state = stateRepo.findById(updateEmployeeDTO.getAddress().getStateId())
-                .orElseThrow(() -> new NotFoundException(State.class, updateEmployeeDTO.getAddress().getStateId()));
-
-        employee.getAddress().setState(state);
         employee = employeeRepo.save(employee);
         return mappingService.convertToDTO(employee);
     }
@@ -96,4 +92,5 @@ public class EmployeeService {
         employeeRepo.delete(employee.get());
         logger.info("Employee {} deleted", id);
     }
+    
 }

@@ -32,7 +32,6 @@ public class EmployeeController {
         return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
     }
 
-
     // get
     @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {

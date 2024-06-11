@@ -11,8 +11,6 @@ import project.employee.Employee.EmployeeDTO;
 import project.employee.Employee.UpdateEmployeeDTO;
 import project.employee.State.State;
 import project.employee.State.StateDTO;
-import project.employee.State.StateRepository;
-import project.employee.exceptions.NotFoundException;
 
 @Service
 public class MappingService {
@@ -20,43 +18,43 @@ public class MappingService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private StateRepository stateRepo;
-
     public EmployeeDTO convertToDTO(Employee employee) {
         EmployeeDTO employeeDTO = modelMapper.map(employee, EmployeeDTO.class);
         if (employee.getAddress() != null) {
             AddressDTO addressDTO = modelMapper.map(employee.getAddress(), AddressDTO.class);
-            addressDTO.setStateId(employee.getAddress().getState().getId()); 
+            addressDTO.setState(modelMapper.map(employee.getAddress().getState(), StateDTO.class)); // Map state
             employeeDTO.setAddress(addressDTO);
         }
         return employeeDTO;
     }
 
-    public Employee convertToEntity(CreateEmployeeDTO createEmployeeDTO) throws NotFoundException {
+    public Employee convertToEntity(CreateEmployeeDTO createEmployeeDTO) {
         Employee employee = modelMapper.map(createEmployeeDTO, Employee.class);
         if (createEmployeeDTO.getAddress() != null) {
-            Address address = convertToEntity(createEmployeeDTO.getAddress());
+            Address address = modelMapper.map(createEmployeeDTO.getAddress(), Address.class);
+            State state = new State();
+            state.setId(createEmployeeDTO.getAddress().getStateId());
+            address.setState(state);
             employee.setAddress(address);
         }
         return employee;
     }
 
-    public Address convertToEntity(AddressDTO addressDTO) throws NotFoundException {
+    public Address convertToEntity(AddressDTO addressDTO) {
         Address address = modelMapper.map(addressDTO, Address.class);
         if (addressDTO.getStateId() != null) {
-            State state = stateRepo.findById(addressDTO.getStateId())
-                    .orElseThrow(() -> new NotFoundException(State.class, addressDTO.getStateId()));
+            State state = new State();
+            state.setId(addressDTO.getStateId());
             address.setState(state);
         }
         return address;
     }
 
-    public StateDTO convertToDTO(State state) {
-        return modelMapper.map(state, StateDTO.class);
+    public State convertToEntity(StateDTO stateDTO) {
+        return modelMapper.map(stateDTO, State.class);
     }
 
-    public void updateEntityFromDTO(UpdateEmployeeDTO updateEmployeeDTO, Employee employee) throws NotFoundException {
+    public void updateEntityFromDTO(UpdateEmployeeDTO updateEmployeeDTO, Employee employee) {
         modelMapper.map(updateEmployeeDTO, employee);
         if (updateEmployeeDTO.getAddress() != null) {
             Address address = employee.getAddress();
@@ -68,12 +66,20 @@ public class MappingService {
         }
     }
 
-    private void updateAddressFromDTO(AddressDTO addressDTO, Address address) throws NotFoundException {
+    private void updateAddressFromDTO(AddressDTO addressDTO, Address address) {
         modelMapper.map(addressDTO, address);
         if (addressDTO.getStateId() != null) {
-            State state = stateRepo.findById(addressDTO.getStateId())
-                    .orElseThrow(() -> new NotFoundException(State.class, addressDTO.getStateId()));
-            address.setState(state);
+            State state = address.getState();
+            if (state == null) {
+                state = new State();
+                address.setState(state);
+            }
+            state.setId(addressDTO.getStateId());
         }
     }
+    
+    public StateDTO convertToDTO(State state) {
+        return modelMapper.map(state, StateDTO.class);
+    }
 }
+
