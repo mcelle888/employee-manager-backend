@@ -13,7 +13,7 @@ public class UpdateEmployeeDTO {
     private Boolean permanent;
     private Date dateStarted;
     private Date dateEnded;
-    private AddressDTO address; 
+    private AddressDTO address;
 
     public String getF_name() {
         return f_name;

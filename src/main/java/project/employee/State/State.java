@@ -1,8 +1,9 @@
 package project.employee.State;
 
 import jakarta.persistence.*;
-import java.util.List;
 import project.employee.Address.Address;
+
+import java.util.List;
 
 @Entity
 @Table(name = "states")
@@ -11,7 +12,7 @@ public class State {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String state;
 
     @OneToMany(mappedBy = "state")
@@ -45,5 +46,4 @@ public class State {
     public String toString() {
         return "State [id=" + id + ", state=" + state + ", addresses=" + addresses + "]";
     }
-
 }

@@ -1,9 +1,9 @@
 package project.employee.Employee;
 
-import java.util.Date;
-
 import jakarta.persistence.*;
 import project.employee.Address.Address;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "employee_list")
@@ -84,6 +84,14 @@ public class Employee {
         this.phone = phone;
     }
 
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
     public Boolean getFullTime() {
         return fullTime;
     }
@@ -122,14 +130,6 @@ public class Employee {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
     }
 
     @Override

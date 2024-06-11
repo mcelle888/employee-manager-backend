@@ -12,8 +12,7 @@ public class CreateEmployeeDTO {
     private Boolean fullTime;
     private Boolean permanent;
     private Date dateStarted;
-    private AddressDTO address; 
-
+    private AddressDTO address;
 
     public String getF_name() {
         return f_name;

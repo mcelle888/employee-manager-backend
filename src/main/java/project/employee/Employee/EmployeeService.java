@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import project.employee.Address.Address;
 import project.employee.Address.AddressRepository;
+import project.employee.State.State;
+import project.employee.State.StateRepository;
 import project.employee.exceptions.NotFoundException;
 import project.employee.service.MappingService;
 
@@ -27,11 +29,19 @@ public class EmployeeService {
     private AddressRepository addressRepo;
 
     @Autowired
+    private StateRepository stateRepo;
+
+    @Autowired
     private MappingService mappingService;
 
     public EmployeeDTO createEmployee(CreateEmployeeDTO createEmployeeDTO) throws NotFoundException {
         logger.info("Creating employee '{} {}'", createEmployeeDTO.getF_name(), createEmployeeDTO.getL_name());
+
+        State state = stateRepo.findById(createEmployeeDTO.getAddress().getStateId())
+                .orElseThrow(() -> new NotFoundException(State.class, createEmployeeDTO.getAddress().getStateId()));
+
         Address address = mappingService.convertToEntity(createEmployeeDTO.getAddress());
+        address.setState(state);
         address = addressRepo.save(address);
 
         Employee employee = mappingService.convertToEntity(createEmployeeDTO);
@@ -68,6 +78,10 @@ public class EmployeeService {
         Employee employee = optionalEmployee.get();
         mappingService.updateEntityFromDTO(updateEmployeeDTO, employee);
 
+        State state = stateRepo.findById(updateEmployeeDTO.getAddress().getStateId())
+                .orElseThrow(() -> new NotFoundException(State.class, updateEmployeeDTO.getAddress().getStateId()));
+
+        employee.getAddress().setState(state);
         employee = employeeRepo.save(employee);
         return mappingService.convertToDTO(employee);
     }
