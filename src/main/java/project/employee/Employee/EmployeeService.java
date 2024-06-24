@@ -21,6 +21,7 @@ import project.employee.service.MappingService;
 public class EmployeeService {
 
     private static final Logger logger = LogManager.getLogger(EmployeeService.class);
+    private static final String DEFAULT_IMAGE_URL = "https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg";
 
     @Autowired
     private EmployeeRepository employeeRepo;
@@ -46,6 +47,11 @@ public class EmployeeService {
 
         Employee employee = mappingService.convertToEntity(createEmployeeDTO);
         employee.setAddress(address);
+
+        if (employee.getImageLink() == null || employee.getImageLink().isEmpty()) {
+            employee.setImageLink(DEFAULT_IMAGE_URL);
+        }
+
         employee = employeeRepo.save(employee);
 
         return mappingService.convertToDTO(employee);
@@ -78,6 +84,10 @@ public class EmployeeService {
         Employee employee = optionalEmployee.get();
         mappingService.updateEntityFromDTO(updateEmployeeDTO, employee);
 
+        if (employee.getImageLink() == null || employee.getImageLink().isEmpty()) {
+            employee.setImageLink(DEFAULT_IMAGE_URL);
+        }
+
         employee = employeeRepo.save(employee);
         return mappingService.convertToDTO(employee);
     }
@@ -92,5 +102,4 @@ public class EmployeeService {
         employeeRepo.delete(employee.get());
         logger.info("Employee {} deleted", id);
     }
-    
 }

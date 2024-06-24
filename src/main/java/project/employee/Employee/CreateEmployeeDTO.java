@@ -13,6 +13,7 @@ public class CreateEmployeeDTO {
     private Boolean permanent;
     private Date dateStarted;
     private AddressDTO address;
+    private String imageLink;
 
     public String getF_name() {
         return f_name;
@@ -84,5 +85,13 @@ public class CreateEmployeeDTO {
 
     public void setAddress(AddressDTO address) {
         this.address = address;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 }

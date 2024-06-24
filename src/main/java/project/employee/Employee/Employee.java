@@ -44,6 +44,11 @@ public class Employee {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
+    @Column(nullable = false)
+    private String imageLink = "https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg";
+
+    // Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -132,11 +137,18 @@ public class Employee {
         this.address = address;
     }
 
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
     @Override
     public String toString() {
         return "Employee [id=" + id + ", f_name=" + f_name + ", l_name=" + l_name + ", email=" + email + ", phone="
                 + phone + ", dob=" + dob + ", fullTime=" + fullTime + ", permanent=" + permanent + ", dateStarted="
-                + dateStarted + ", dateEnded=" + dateEnded + ", address=" + address + "]";
+                + dateStarted + ", dateEnded=" + dateEnded + ", address=" + address + ", imageLink=" + imageLink + "]";
     }
-
 }

@@ -15,6 +15,7 @@ public class EmployeeDTO {
     private Boolean permanent;
     private Date dateStarted;
     private Date dateEnded;
+    private String imageLink;
     private AddressDTO address;
 
     public Long getId() {
@@ -97,6 +98,14 @@ public class EmployeeDTO {
         this.dateEnded = dateEnded;
     }
 
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
     public AddressDTO getAddress() {
         return address;
     }
@@ -104,5 +113,4 @@ public class EmployeeDTO {
     public void setAddress(AddressDTO address) {
         this.address = address;
     }
-
 }
