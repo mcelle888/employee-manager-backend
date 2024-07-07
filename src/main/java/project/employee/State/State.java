@@ -6,7 +6,7 @@ import project.employee.Address.Address;
 import java.util.List;
 
 @Entity
-@Table(name = "states")
+@Table(name = "state")
 public class State {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

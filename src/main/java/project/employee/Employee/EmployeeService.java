@@ -38,8 +38,9 @@ public class EmployeeService {
     public EmployeeDTO createEmployee(CreateEmployeeDTO createEmployeeDTO) throws NotFoundException {
         logger.info("Creating employee '{} {}'", createEmployeeDTO.getF_name(), createEmployeeDTO.getL_name());
 
-        State state = stateRepo.findById(createEmployeeDTO.getAddress().getStateId())
-                .orElseThrow(() -> new NotFoundException(State.class, createEmployeeDTO.getAddress().getStateId()));
+        State state = stateRepo.findById(createEmployeeDTO.getAddress().getState().getId())
+                .orElseThrow(
+                        () -> new NotFoundException(State.class, createEmployeeDTO.getAddress().getState().getId()));
 
         Address address = mappingService.convertToEntity(createEmployeeDTO.getAddress());
         address.setState(state);
@@ -82,6 +83,16 @@ public class EmployeeService {
             throw new NotFoundException(Employee.class, id);
         }
         Employee employee = optionalEmployee.get();
+        Address address = employee.getAddress();
+        if (address != null && updateEmployeeDTO.getAddress() != null) {
+            State newState = stateRepo.findById(updateEmployeeDTO.getAddress().getState().getId())
+                    .orElseThrow(() -> new NotFoundException(State.class,
+                            updateEmployeeDTO.getAddress().getState().getId()));
+            address.setState(newState);
+            address = mappingService.updateAddressFromDTO(updateEmployeeDTO.getAddress(), address);
+            addressRepo.save(address);
+        }
+
         mappingService.updateEntityFromDTO(updateEmployeeDTO, employee);
 
         if (employee.getImageLink() == null || employee.getImageLink().isEmpty()) {

@@ -11,6 +11,7 @@ import project.employee.Employee.EmployeeDTO;
 import project.employee.Employee.UpdateEmployeeDTO;
 import project.employee.State.State;
 import project.employee.State.StateDTO;
+import project.employee.State.StateRepository;
 
 @Service
 public class MappingService {
@@ -18,11 +19,14 @@ public class MappingService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private StateRepository stateRepo;
+
     public EmployeeDTO convertToDTO(Employee employee) {
         EmployeeDTO employeeDTO = modelMapper.map(employee, EmployeeDTO.class);
         if (employee.getAddress() != null) {
             AddressDTO addressDTO = modelMapper.map(employee.getAddress(), AddressDTO.class);
-            addressDTO.setState(modelMapper.map(employee.getAddress().getState(), StateDTO.class)); // Map state
+            addressDTO.setState(modelMapper.map(employee.getAddress().getState(), StateDTO.class)); 
             employeeDTO.setAddress(addressDTO);
         }
         return employeeDTO;
@@ -32,8 +36,8 @@ public class MappingService {
         Employee employee = modelMapper.map(createEmployeeDTO, Employee.class);
         if (createEmployeeDTO.getAddress() != null) {
             Address address = modelMapper.map(createEmployeeDTO.getAddress(), Address.class);
-            State state = new State();
-            state.setId(createEmployeeDTO.getAddress().getStateId());
+            State state = stateRepo.findById(createEmployeeDTO.getAddress().getState().getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid state ID"));
             address.setState(state);
             employee.setAddress(address);
         }
@@ -42,9 +46,9 @@ public class MappingService {
 
     public Address convertToEntity(AddressDTO addressDTO) {
         Address address = modelMapper.map(addressDTO, Address.class);
-        if (addressDTO.getStateId() != null) {
-            State state = new State();
-            state.setId(addressDTO.getStateId());
+        if (addressDTO.getState() != null) {
+            State state = stateRepo.findById(addressDTO.getState().getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid state ID"));
             address.setState(state);
         }
         return address;
@@ -66,20 +70,17 @@ public class MappingService {
         }
     }
 
-    private void updateAddressFromDTO(AddressDTO addressDTO, Address address) {
+    public Address updateAddressFromDTO(AddressDTO addressDTO, Address address) {
         modelMapper.map(addressDTO, address);
-        if (addressDTO.getStateId() != null) {
-            State state = address.getState();
-            if (state == null) {
-                state = new State();
-                address.setState(state);
-            }
-            state.setId(addressDTO.getStateId());
+        if (addressDTO.getState() != null) {
+            State state = stateRepo.findById(addressDTO.getState().getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid state ID"));
+            address.setState(state);
         }
+        return address;
     }
-    
+
     public StateDTO convertToDTO(State state) {
         return modelMapper.map(state, StateDTO.class);
     }
 }
-

@@ -6,7 +6,7 @@ import project.employee.Address.Address;
 import java.util.Date;
 
 @Entity
-@Table(name = "employee_list")
+@Table(name = "employee")
 public class Employee {
 
     @Id
